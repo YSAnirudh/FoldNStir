@@ -12,15 +12,16 @@ export default class GameSession{
 			return GameSession.__instance;
 		}
 		GameSession.__instance = this;
+		this.__instance = this;
 		//Browser Information
 		this.__canvasHeight = 0;
 		this.__canvasWidth = 0;
 
 		//Instance Variables
-		this.__instance = {}; //GameSession
 		this.__p5 = {}; //P5 instance
 		this.__canvas = {}; //P5 Canvas
 		this.__poseLandmarks = {}; //Pose landmarks 
+		this.__skeleton = {}; //player skeleton
 
 		//Important Globals
 		this.__backgroundColor = 0;
@@ -42,6 +43,14 @@ export default class GameSession{
 		this.__particleSystemDefinitions = new ParticleSystemDefinitions();
  
 		console.log("Session Created Successfully.");
+	}
+
+	get skeleton(){
+		return this.__skeleton;
+	}
+
+	set skeleton(skeleton){
+		this.__skeleton = skeleton;
 	}
 
 	get poseLandmarks(){

@@ -1,4 +1,5 @@
 import GameSession from "./core/GameSession.js";
+import Skeleton from "./game/Skeleton.js";
 
 /**TODOS:
 
@@ -73,6 +74,10 @@ var foldnstir = function (p) {
 		p.frameRate(60);
 		p.imageMode(p.CENTER);
 
+		//instantiate skeleton
+		gameSession.skeleton = new Skeleton();
+		gameSession.skeleton.update();
+
 		
 
 
@@ -82,18 +87,21 @@ var foldnstir = function (p) {
 	p.draw = function(){
 		//System updates first
 		gameSession.timeManager.update();
+		gameSession.skeleton.update();
 
 		//Renders last and from back to front. Clear before going.
 		p.clear();
 		p.background(p.color(gameSession.backgroundColor)); 
 		gameSession.particleManager.render();
-		
+
 		if(gameSession.poseLandmarks.length >= 1){
 			for(let i = 0; i < gameSession.poseLandmarks.length; i++){
 				p.ellipse(gameSession.poseLandmarks[i].x * gameSession.canvasWidth, gameSession.poseLandmarks[i].y * gameSession.canvasHeight, gameSession.poseLandmarks[i].z*100, gameSession.poseLandmarks[i].z*100);
 			}
 
 		}
+
+		gameSession.skeleton.render();
 		
 	}
 
