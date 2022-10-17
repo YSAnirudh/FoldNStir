@@ -22,6 +22,7 @@
     "@mediapipe/drawing_utils": "^0.3.1620248257",
     "@mediapipe/pose": "^0.5.1635988162",
     "express": "^4.18.0",
+    "node": "^18.11.0",
     "nodemon": "^2.0.20"
   }
 }

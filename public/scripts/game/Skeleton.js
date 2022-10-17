@@ -14,6 +14,22 @@ export default class Skeleton extends GameObject {
         //data for each landmark detected
         this.__joints = [];
 
+        this.__requiredJoints = [];
+
+        this.__nose = {};
+        this.__rightShoulder = {};
+        this.__rightElbow = {};
+        this.__rightWrist = {};
+        this.__rightHip = {};
+        this.__rightKnee = {};
+        this.__rightAnkle = {};
+        this.__leftShoulder = {};
+        this.__leftElbow = {};
+        this.__leftWrist = {};
+        this.__leftHip = {};
+        this.__leftKnee = {};
+        this.__leftAnkle = {};
+
         this.__leftTemple = {};
         this.__leftEyebrow1 = {};
         this.__leftEyebrow2 = {};
@@ -90,6 +106,14 @@ export default class Skeleton extends GameObject {
 
     set joints(joints){
         this.__joints = joints;
+    }
+
+    get requiredJoints() {
+        return this.__requiredJoints;
+    }
+
+    set requiredJoints(requiredJoints) {
+        this.__requiredJoints = requiredJoints;
     }
 
     addBone(bone){
@@ -180,6 +204,34 @@ export default class Skeleton extends GameObject {
     addBonesFromPoseLandmarks(poseLandmarks){
 
         if(Object.keys(poseLandmarks).length > 0){
+
+            this.__nose = poseLandmarks[0];
+            this.__rightShoulder = poseLandmarks[12];
+            this.__rightElbow = poseLandmarks[14];
+            this.__rightWrist = poseLandmarks[16];
+            this.__rightHip = poseLandmarks[24];
+            this.__rightKnee = poseLandmarks[26];
+            this.__rightAnkle = poseLandmarks[28];
+            this.__leftShoulder = poseLandmarks[11];
+            this.__leftElbow = poseLandmarks[13];
+            this.__leftWrist = poseLandmarks[15];
+            this.__leftHip = poseLandmarks[23];
+            this.__leftKnee = poseLandmarks[25];
+            this.__leftAnkle = poseLandmarks[27];
+            
+            this.__requiredJoints.push(this.__nose);
+            this.__requiredJoints.push(this.__rightShoulder);
+            this.__requiredJoints.push(this.__rightElbow);
+            this.__requiredJoints.push(this.__rightWrist);
+            this.__requiredJoints.push(this.__rightHip);
+            this.__requiredJoints.push(this.__rightKnee);
+            this.__requiredJoints.push(this.__rightAnkle);
+            this.__requiredJoints.push(this.__leftShoulder);
+            this.__requiredJoints.push(this.__leftElbow);
+            this.__requiredJoints.push(this.__leftWrist);
+            this.__requiredJoints.push(this.__leftHip);
+            this.__requiredJoints.push(this.__leftKnee);
+            this.__requiredJoints.push(this.__leftAnkle);
             //left temple creation
             this.leftTemple = new Bone(poseLandmarks[8], poseLandmarks[6], "Left Temple", 0);
             this.bones.push(this.leftTemple);
@@ -320,6 +372,58 @@ export default class Skeleton extends GameObject {
             this.rightFingertips = new Bone(poseLandmarks[17], poseLandmarks[19], "Right Fingertips", 34);
             this.bones.push(this.rightFingertips);
         }
+    }
+
+    get nose() {
+        return this.__nose;
+    }
+
+    get rightShoulder() {
+        return this.__rightShoulder;
+    }
+
+    get leftShoulder() {
+        return this.__leftShoulder;
+    }
+
+    get rightElbow() {
+        return this.__rightElbow;
+    }
+
+    get leftElbow() {
+        return this.__leftElbow;
+    }
+
+    get rightWrist() {
+        return this.__rightWrist;
+    }
+
+    get leftWrist() {
+        return this.__leftWrist;
+    }
+
+    get rightHip() {
+        return this.__rightHip;
+    }
+
+    get leftHip() {
+        return this.__leftHip;
+    }
+
+    get rightKnee() {
+        return this.__rightKnee;
+    }
+
+    get leftKnee() {
+        return this.__leftKnee;
+    }
+
+    get rightAnkle() {
+        return this.__rightAnkle;
+    }
+
+    get leftAnkle() {
+        return this.__leftAnkle;
     }
 
     get leftTemple() {
@@ -468,6 +572,58 @@ export default class Skeleton extends GameObject {
 
 
     //Bone Setters by Name
+
+    set nose(nose) {
+        return this.__nose = nose;
+    }
+
+    set rightShoulder(rightShoulder) {
+        this.__rightShoulder = rightShoulder;
+    }
+
+    set leftShoulder(leftShoulder) {
+        this.__leftShoulder = leftShoulder;
+    }
+
+    set rightElbow(rightElbow) {
+        this.__rightElbow = rightElbow;
+    }
+
+    set leftElbow(leftElbow) {
+        this.__leftElbow = leftElbow;
+    }
+
+    set rightWrist(rightWrist) {
+        this.__rightWrist = rightWrist;
+    }
+
+    set leftWrist(leftWrist) {
+        this.__leftWrist = leftWrist;
+    }
+
+    set rightHip(rightHip) {
+        this.__rightHip = rightHip;
+    }
+
+    set leftHip(leftHip) {
+        this.__leftHip = leftHip;
+    }
+
+    set rightKnee(rightKnee) {
+        this.__rightKnee = rightKnee;
+    }
+
+    set leftKnee(leftKnee) {
+        this.__leftKnee = leftKnee;
+    }
+
+    set rightAnkle(rightAnkle) {
+        this.__rightAnkle = rightAnkle;
+    }
+
+    set leftAnkle(leftAnkle) {
+        this.__leftAnkle = leftAnkle;
+    }
     set leftTemple(leftTemple) {
         this.__leftTemple = leftTemple;
     }

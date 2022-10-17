@@ -49,10 +49,10 @@ camera.start();
 
 //Define how our P5 sketch will look. Treat this as the "Main".
 var foldnstir = function (p) {
-	
+	let imgCreate;
 	//Executed before beginning setup
 	p.preload = function() {
-	
+		imgCreate = p.loadImage("assets/images/ChargePackEffectComplete.gif")
 	}
 
 	//Executed before draw
@@ -94,13 +94,37 @@ var foldnstir = function (p) {
 		p.background(p.color(gameSession.backgroundColor)); 
 		gameSession.particleManager.render();
 
+		let greenColor = p.color('green');
+		let redColor = p.color('red');
+
 		if(gameSession.poseLandmarks.length >= 1){
 			for(let i = 0; i < gameSession.poseLandmarks.length; i++){
-				p.ellipse(gameSession.poseLandmarks[i].x * gameSession.canvasWidth, gameSession.poseLandmarks[i].y * gameSession.canvasHeight, gameSession.poseLandmarks[i].z*100, gameSession.poseLandmarks[i].z*100);
+				if ((i >= 11 && i <= 16) || (i >= 23 && i <= 28) || (i == 0)) {
+					p.fill(greenColor);
+					p.ellipse(gameSession.poseLandmarks[i].x * gameSession.canvasWidth, gameSession.poseLandmarks[i].y * gameSession.canvasHeight, 20,20, 0);//gameSession.poseLandmarks[i].z*100, gameSession.poseLandmarks[i].z*100);
+					
+				}
+			}
+
+			var xOffset = 0;
+			var yOffset = 0;
+			var circleRadius = 300;
+			if (gameSession.skeleton.leftWrist && gameSession.skeleton.nose) {
+				if (checkInCircle(gameSession.skeleton.leftWrist.x * gameSession.canvasWidth, 
+				gameSession.skeleton.leftWrist.y * gameSession.canvasWidth, 
+				(gameSession.skeleton.nose.x * gameSession.canvasWidth) + xOffset, 
+				(gameSession.skeleton.nose.y * gameSession.canvasHeight) + yOffset,
+				circleRadius)) {
+					p.fill(greenColor);
+				} else {
+					p.fill(redColor);
+				}
+				p.ellipse(gameSession.skeleton.nose.x * gameSession.canvasWidth + xOffset, gameSession.skeleton.nose.y * gameSession.canvasHeight + yOffset, circleRadius,circleRadius, 0);//gameSession.poseLandmarks[i].z*100, gameSession.poseLandmarks[i].z*100);
+				
+				p.image(imgCreate, gameSession.skeleton.nose.x * gameSession.canvasWidth + xOffset, gameSession.skeleton.nose.y * gameSession.canvasHeight + yOffset, circleRadius * 2, circleRadius * 2);
 			}
 
 		}
-
 		gameSession.skeleton.render();
 		
 	}
@@ -116,6 +140,16 @@ var foldnstir = function (p) {
 		gameSession.canvasHeight = window.innerHeight;
 
 		p.resizeCanvas(gameSession.canvasWidth, gameSession.canvasHeight);
+	}
+
+	function checkInCircle(posInfoX, posInfoY, circlePosX, circlePosY, circleRadius) {
+		let distance = ((posInfoX - circlePosX)*(posInfoX - circlePosX)) + ((posInfoY - circlePosY)*(posInfoY - circlePosY));
+		if (distance <= ((circleRadius/2)*(circleRadius/2))) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 }
 
