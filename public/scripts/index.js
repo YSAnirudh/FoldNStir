@@ -1,6 +1,7 @@
 import GameSession from "./core/GameSession.js";
 import Skeleton from "./game/Skeleton.js";
-
+import Circle from "./game/Circle.js"
+import MainPose from "./game/MainPose.js"
 /**TODOS:
 
 */
@@ -49,10 +50,11 @@ camera.start();
 
 //Define how our P5 sketch will look. Treat this as the "Main".
 var foldnstir = function (p) {
-	let imgCreate;
+	let imgCreate, benderCharacter;
 	//Executed before beginning setup
 	p.preload = function() {
 		imgCreate = p.loadImage("assets/images/ChargePackEffectComplete.gif")
+		benderCharacter = p.loadImage("assets/images/BenderTPose.png")
 	}
 
 	//Executed before draw
@@ -78,9 +80,12 @@ var foldnstir = function (p) {
 		gameSession.skeleton = new Skeleton();
 		gameSession.skeleton.update();
 
-		
-
-
+		// Adding circles for the pose.
+		let circle = new Circle(300, -100, 300, 4);
+		let circle2 = new Circle(-300, 300, 300, 4);
+		gameSession.mainPose = new MainPose(4)
+		gameSession.mainPose.addCircle(circle);
+		gameSession.mainPose.addCircle(circle2);
 	}
 
 	//core update function of the game
@@ -98,30 +103,28 @@ var foldnstir = function (p) {
 		let redColor = p.color('red');
 
 		if(gameSession.poseLandmarks.length >= 1){
+			p.strokeWeight(0);
 			for(let i = 0; i < gameSession.poseLandmarks.length; i++){
 				if ((i >= 11 && i <= 16) || (i >= 23 && i <= 28) || (i == 0)) {
 					p.fill(greenColor);
-					p.ellipse(gameSession.poseLandmarks[i].x * gameSession.canvasWidth, gameSession.poseLandmarks[i].y * gameSession.canvasHeight, 20,20, 0);//gameSession.poseLandmarks[i].z*100, gameSession.poseLandmarks[i].z*100);
+					p.ellipse(gameSession.poseLandmarks[i].x * gameSession.canvasWidth, gameSession.poseLandmarks[i].y * gameSession.canvasHeight, 50,50, 0);//gameSession.poseLandmarks[i].z*100, gameSession.poseLandmarks[i].z*100);
 					
 				}
 			}
-
-			var xOffset = 0;
-			var yOffset = 0;
-			var circleRadius = 300;
 			if (gameSession.skeleton.leftWrist && gameSession.skeleton.nose) {
-				if (checkInCircle(gameSession.skeleton.leftWrist.x * gameSession.canvasWidth, 
-				gameSession.skeleton.leftWrist.y * gameSession.canvasWidth, 
-				(gameSession.skeleton.nose.x * gameSession.canvasWidth) + xOffset, 
-				(gameSession.skeleton.nose.y * gameSession.canvasHeight) + yOffset,
-				circleRadius)) {
-					p.fill(greenColor);
-				} else {
-					p.fill(redColor);
-				}
-				p.ellipse(gameSession.skeleton.nose.x * gameSession.canvasWidth + xOffset, gameSession.skeleton.nose.y * gameSession.canvasHeight + yOffset, circleRadius,circleRadius, 0);//gameSession.poseLandmarks[i].z*100, gameSession.poseLandmarks[i].z*100);
 				
-				p.image(imgCreate, gameSession.skeleton.nose.x * gameSession.canvasWidth + xOffset, gameSession.skeleton.nose.y * gameSession.canvasHeight + yOffset, circleRadius * 2, circleRadius * 2);
+				// Assigning bodyParts to each circle
+				gameSession.mainPose.poseCircles[0].addBodyPartInfo(
+					gameSession.skeleton.leftWrist, 
+					gameSession
+				);
+
+				gameSession.mainPose.poseCircles[1].addBodyPartInfo(
+					gameSession.skeleton.rightKnee, 
+					gameSession
+				);
+				// Rendering body parts.
+				gameSession.mainPose.update()
 			}
 
 		}
@@ -144,7 +147,7 @@ var foldnstir = function (p) {
 
 	function checkInCircle(posInfoX, posInfoY, circlePosX, circlePosY, circleRadius) {
 		let distance = ((posInfoX - circlePosX)*(posInfoX - circlePosX)) + ((posInfoY - circlePosY)*(posInfoY - circlePosY));
-		if (distance <= ((circleRadius/2)*(circleRadius/2))) {
+		if (distance <= (circleRadius * circleRadius)) {
 			return true;
 		}
 		else {

@@ -22,6 +22,8 @@ export default class GameSession{
 		this.__canvas = {}; //P5 Canvas
 		this.__poseLandmarks = {}; //Pose landmarks 
 		this.__skeleton = {}; //player skeleton
+		this.__circle = {};
+		this.__mainPose = {}
 
 		//Important Globals
 		this.__backgroundColor = 0;
@@ -51,6 +53,22 @@ export default class GameSession{
 
 	set skeleton(skeleton){
 		this.__skeleton = skeleton;
+	}
+
+	get circle(){
+		return this.__circle;
+	}
+
+	set circle(circle){
+		this.__circle = circle;
+	}
+
+	get mainPose(){
+		return this.__mainPose;
+	}
+
+	set mainPose(mainPose){
+		this.__mainPose = mainPose;
 	}
 
 	get poseLandmarks(){
