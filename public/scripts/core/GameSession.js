@@ -23,7 +23,11 @@ export default class GameSession{
 		this.__poseLandmarks = {}; //Pose landmarks 
 		this.__skeleton = {}; //player skeleton
 		this.__circle = {};
-		this.__mainPose = {};
+		this.__mainPoses = [];
+		this.__stirPoses = [];
+		this.__orderOfPoses = [];
+		this.__currentPoseIndex = 0;
+		this.__emptyPose = {};
 		this.__benderCharacter = {};
 
 		//Important Globals
@@ -64,12 +68,44 @@ export default class GameSession{
 		this.__circle = circle;
 	}
 
-	get mainPose(){
-		return this.__mainPose;
+	get mainPoses(){
+		return this.__mainPoses;
 	}
 
-	set mainPose(mainPose){
-		this.__mainPose = mainPose;
+	set mainPoses(mainPoses){
+		this.__mainPoses = mainPoses;
+	}
+
+	get emptyPose(){
+		return this.__emptyPose;
+	}
+
+	set emptyPose(emptyPose){
+		this.__emptyPose = emptyPose;
+	}
+
+	get stirPoses(){
+		return this.__stirPoses;
+	}
+
+	set stirPoses(stirPoses){
+		this.__stirPoses = stirPoses;
+	}
+
+	get orderOfPoses(){
+		return this.__orderOfPoses;
+	}
+
+	set orderOfPoses(orderOfPoses){
+		this.__orderOfPoses = orderOfPoses;
+	}
+
+	get currentPoseIndex(){
+		return this.__currentPoseIndex;
+	}
+
+	set currentPoseIndex(currentPoseIndex){
+		this.__currentPoseIndex = currentPoseIndex;
 	}
 
 	get benderCharacter(){
