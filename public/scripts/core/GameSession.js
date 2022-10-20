@@ -48,8 +48,57 @@ export default class GameSession{
 
 		//Object stores particle system definitions
 		this.__particleSystemDefinitions = new ParticleSystemDefinitions();
- 
+
+		//All states available to game
+		this.__states = [];
+
+		//Current state
+		this.__currentState = {};
+
 		console.log("Session Created Successfully.");
+	}
+
+	//used to add states to game on game load or dynamically
+	addStateToGame(state){
+		this.states.push(state);
+	}
+
+	//simplifies state setup. calls setup and then loads the state into currentState.
+	setCurrentState(state){
+		//TODO: Make this safe to add non-pre-existing states
+		this.currentState = state;
+		this.currentState.setup();
+	}
+
+	setCurrentStateByName(stateName){
+		let state;
+		for(let i = 0; i < this.states.length; i++){
+			if(this.states[i].name == stateName){
+				state = this.states[i];
+			}
+		}
+
+		if(state){
+			this.setCurrentState(state);
+		} else {
+			console.log(`ERROR: ${stateName} not loaded as current state in session.`);
+		}
+	}
+
+	get states(){
+		return this.__states;
+	}
+
+	set states(states){
+		return this.__states;
+	}
+
+	get currentState(){
+		return this.__currentState;
+	}
+
+	set currentState(currentState){
+		this.__currentState = currentState;
 	}
 
 	get skeleton(){

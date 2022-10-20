@@ -2,59 +2,30 @@ import GameSession from "./core/GameSession.js";
 import Skeleton from "./game/Skeleton.js";
 import Circle from "./game/Circle.js"
 import MainPose from "./game/MainPose.js"
+import LoadingState from "./game/states/LoadingState.js";
 import MainBody from "./game/MainBody.js";
 import StirCircle from "./game/StirCircle.js";
 import StirPose from "./game/StirPose.js";
 import EmptyPose from "./game/EmptyPose.js";
+import MainMenuState from "./game/states/MainMenuState.js";
 /**TODOS:
-
+ Move Camera instantiation to separate file and load with loading state
+ Have game start in loading state
+ On finishing loading, move to Calibrate State
 */
 
 //Instantiate our Game Session - this will be our parent for all game data.
 let gameSession = new GameSession();
 
 //Instantiate MediaPipe before proceeding
-const videoElement = document.getElementsByClassName('input_video')[0];
-const mpPose = window;
 
-//Attach results to gamesession whenever available
-function onResults(results) {
-	gameSession.poseLandmarks = (results.poseLandmarks);
-}
 
-//Instantiate Pose
-const pose = new mpPose.Pose(
-	{locateFile: (file) => {
-		return `https://cdn.jsdelivr.net/npm/@mediapipe/pose/${file}`;
-	}
-});
 
-//Options
-pose.setOptions({
-	modelComplexity: 1,
-	smoothLandmarks: true,
-	enableSegmentation: false,
-	smoothSegmentation: false,
-	minDetectionConfidence: 0.5,
-	minTrackingConfidence: 0.5
-});
-
-pose.onResults(onResults);
-
-const camera = new Camera(videoElement, {
-	onFrame: async () => {
-		await pose.send({image: videoElement});
-	},
-	width: 1280,
-	height: 720
-});
-
-camera.start();
 
 
 //Define how our P5 sketch will look. Treat this as the "Main".
 var foldnstir = function (p) {
-	let chargeEffectBefore, sweatEffect, circleUI, benderBodyParts;
+	let chargeEffectBefore, sweatEffect, circleUI, benderBodyParts, loadingBackgroundImg, mainMenuImg;
 	//Executed before beginning setup
 	p.preload = function() {
 		chargeEffectBefore = p.loadImage("assets/images/ChargePackEffectComplete.gif")
@@ -76,10 +47,30 @@ var foldnstir = function (p) {
 		benderBodyParts.push(p.loadImage("assets/images/LFeet.png"))
 		benderBodyParts.push(p.loadImage("assets/images/RWrist.png"))
 		benderBodyParts.push(p.loadImage("assets/images/RFeet.png"))
+
+		
+		//Load background image
+		//TODO: file URLs and keys should be turned into a constants file section.
+		loadingBackgroundImg = p.loadImage("assets/images/ui_loading.png");
+		gameSession.spriteManager.addSprite("loadingBackgroundImg", loadingBackgroundImg);
+
+		//Main menu image
+		mainMenuImg = p.loadImage("assets/images/ui_start_screen.png");
+		gameSession.spriteManager.addSprite("mainMenuImg", mainMenuImg);
 	}
 
 	//Executed before draw
 	p.setup = function () {
+
+		//Instantiate all relevant game states and add them to the session.
+		let loadingState = new LoadingState();
+		let mainMenuState = new MainMenuState();
+		gameSession.addStateToGame(loadingState);
+		gameSession.addStateToGame(mainMenuState);
+
+		//Set initial game state as loading, call setup method
+		gameSession.setCurrentState(loadingState);
+
 		gameSession.canvasWidth = window.innerWidth;
 		gameSession.canvasHeight = window.innerHeight;
 
@@ -97,9 +88,7 @@ var foldnstir = function (p) {
 		p.frameRate(60);
 		p.imageMode(p.CENTER);
 
-		//instantiate skeleton
-		gameSession.skeleton = new Skeleton();
-		gameSession.skeleton.update();
+		//Move to game state setup
 
 		// Adding circles for the pose.
 		
@@ -166,16 +155,19 @@ var foldnstir = function (p) {
 
 	//core update function of the game
 	p.draw = function(){
+
 		//System updates first
 		gameSession.timeManager.update();
-		gameSession.skeleton.update();
-		
+		//gameSession.skeleton.update();
+		gameSession.currentState.update();
 		//Renders last and from back to front. Clear before going.
 		p.clear();
 		p.angleMode(p.DEGREES);
+
+		//TODO: Move to individual classes and use an image
 		p.background(p.color(gameSession.backgroundColor)); 
 		gameSession.particleManager.render();
-		
+
 		if(gameSession.poseLandmarks.length >= 1){
 			p.imageMode(p.CENTER);
 			p.strokeWeight(0);
@@ -257,44 +249,12 @@ var foldnstir = function (p) {
 				p.fill(gameSession.skeleton.rightAnkleC);
 				p.ellipse(gameSession.skeleton.rightAnkle.x * gameSession.canvasWidth, gameSession.skeleton.rightAnkle.y * gameSession.canvasHeight, 50,50, 0);
 			}
+
+			gameSession.currentState.render();
 		}
 		// gameSession.skeleton.render();
 		
 	}
-
-	// setupBodyPartInfo = function(gameSession) {
-	// 	//------------------------MAIN POSE 1--------------------------------
-	// 	gameSession.mainPoses[0].poseCircles[0].addBodyPartInfo(gameSession.skeleton.leftWrist, gameSession,gameSession.skeleton.leftWristC,"L");
-
-	// 	gameSession.mainPoses[0].poseCircles[1].addBodyPartInfo(gameSession.skeleton.rightWrist, gameSession, gameSession.skeleton.rightWristC, "R");
-
-	// 	gameSession.mainPoses[0].poseCircles[2].addBodyPartInfo(gameSession.skeleton.rightAnkle, gameSession,gameSession.skeleton.rightAnkleC,"R");
-
-	// 	gameSession.mainPoses[0].poseCircles[3].addBodyPartInfo(gameSession.skeleton.rightKnee, gameSession,gameSession.skeleton.rightKneeC,"R");
-		
-	// 	//------------------------MAIN POSE 2--------------------------------
-	// 	gameSession.mainPoses[1].poseCircles[0].addBodyPartInfo(gameSession.skeleton.leftWrist, gameSession,gameSession.skeleton.leftWristC,"L");
-
-	// 	gameSession.mainPoses[1].poseCircles[1].addBodyPartInfo(gameSession.skeleton.rightWrist, gameSession, gameSession.skeleton.rightWristC, "R");
-
-	// 	gameSession.mainPoses[1].poseCircles[2].addBodyPartInfo(gameSession.skeleton.rightAnkle, gameSession,gameSession.skeleton.rightAnkleC,"R");
-
-	// 	gameSession.mainPoses[1].poseCircles[3].addBodyPartInfo(gameSession.skeleton.rightKnee, gameSession,gameSession.skeleton.rightKneeC,"R");
-		
-	// 	//------------------------STIR POSE 1--------------------------------
-	// 	gameSession.stirPoses[0].stirCircles[0].addBodyPartInfo(gameSession.skeleton.leftWrist,gameSession,gameSession.skeleton.leftWristC,"L")
-
-	// 	gameSession.stirPoses[0].stirCircles[1].addBodyPartInfo(gameSession.skeleton.rightWrist,gameSession,gameSession.skeleton.rightWristC,"R")
-
-	// 	//------------------------STIR POSE 2--------------------------------
-	// 	gameSession.stirPoses[1].stirCircles[0].addBodyPartInfo(gameSession.skeleton.leftWrist,gameSession,gameSession.skeleton.leftWristC,"L")
-
-	// 	gameSession.stirPoses[1].stirCircles[1].addBodyPartInfo(gameSession.skeleton.rightWrist,gameSession,gameSession.skeleton.rightWristC,"R")
-
-	// 	gameSession.stirPoses[1].stirCircles[3].addBodyPartInfo(gameSession.skeleton.leftWrist,gameSession,gameSession.skeleton.leftWristC,"L")
-
-	// 	gameSession.stirPoses[1].stirCircles[4].addBodyPartInfo(gameSession.skeleton.rightWrist,gameSession,gameSession.skeleton.rightWristC,"R")
-	// }
 
 	// Manage game input.
 	p.keyPressed = function () {
