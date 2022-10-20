@@ -27,21 +27,6 @@ export default class MainBody extends GameObject {
         this.p5.pop()
     }
 
-    drawWrist(index, bodyPart1X, bodyPart1Y, bodyPart2X, bodyPart2Y, imageSizeMultiplier, angleOffset, horizontalImage, heightMult, widthMult) {
-        let angle = this.getAngle(bodyPart1X, bodyPart1Y, bodyPart2X, bodyPart2Y) + angleOffset;
-        
-        this.p5.push()
-        this.p5.translate(bodyPart2X, bodyPart2X)
-        this.p5.rotate(angle)
-        let imageHeight = this.getDistance(bodyPart1X, bodyPart1Y, bodyPart2X, bodyPart2Y)
-        if (horizontalImage) {
-            this.p5.image(this.bodyParts[index], 0, 0, imageHeight * heightMult, imageHeight * imageSizeMultiplier * widthMult)
-        } else {
-            this.p5.image(this.bodyParts[index], 0, 0, imageHeight * imageSizeMultiplier * heightMult, imageHeight * widthMult)
-        }
-        this.p5.pop()
-    }
-
     update(gameSession){
         
     }

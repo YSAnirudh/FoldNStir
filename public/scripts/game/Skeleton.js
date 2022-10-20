@@ -36,6 +36,26 @@ export default class Skeleton extends GameObject {
         this.__leftHeel = {};
         this.__leftFootIndex = {};
 
+        this.__noseC = this.p5.color(153, 0, 153);
+        this.__rightShoulderC = this.p5.color(0, 55, 0);
+        this.__rightElbowC = this.p5.color(55, 0, 0);
+        this.__rightWristC = this.p5.color(153, 153, 153);
+        this.__rightHipC = this.p5.color(0, 0, 153);
+        this.__rightKneeC = this.p5.color(0, 55, 55);
+        this.__rightAnkleC = this.p5.color(153, 153, 0);
+        this.__rightIndexC = this.p5.color(0, 0, 0);
+        this.__rightHeelC = this.p5.color(0, 0, 0);
+        this.__rightFootIndexC = this.p5.color(0, 0, 0);
+        this.__leftShoulderC = this.p5.color(0, 55, 0);
+        this.__leftElbowC = this.p5.color(55, 0, 0);
+        this.__leftWristC = this.p5.color(153, 153, 153);
+        this.__leftHipC = this.p5.color(0, 0, 153);
+        this.__leftKneeC = this.p5.color(0, 55, 55);
+        this.__leftAnkleC = this.p5.color(153, 153, 0);
+        this.__leftIndexC = this.p5.color(0, 0, 0);
+        this.__leftHeelC = this.p5.color(0, 0, 0);
+        this.__leftFootIndexC = this.p5.color(0, 0, 0);
+
         this.__leftTemple = {};
         this.__leftEyebrow1 = {};
         this.__leftEyebrow2 = {};
@@ -608,6 +628,82 @@ export default class Skeleton extends GameObject {
         return this.__rightFingerTips;
     }
 
+    get noseC() {
+        return this.__noseC;
+    }
+
+    get rightShoulderC() {
+        return this.__rightShoulderC;
+    }
+
+    get leftShoulderC() {
+        return this.__leftShoulderC;
+    }
+
+    get rightElbowC() {
+        return this.__rightElbowC;
+    }
+
+    get leftElbowC() {
+        return this.__leftElbowC;
+    }
+
+    get rightWristC() {
+        return this.__rightWristC;
+    }
+
+    get leftWristC() {
+        return this.__leftWristC;
+    }
+
+    get rightHipC() {
+        return this.__rightHipC;
+    }
+
+    get leftHipC() {
+        return this.__leftHipC;
+    }
+
+    get rightKneeC() {
+        return this.__rightKneeC;
+    }
+
+    get leftKneeC() {
+        return this.__leftKneeC;
+    }
+
+    get rightAnkleC() {
+        return this.__rightAnkleC;
+    }
+
+    get leftAnkleC() {
+        return this.__leftAnkleC;
+    }
+
+    get rightIndexC() {
+        return this.__rightIndexC;
+    }
+
+    get leftIndexC() {
+        return this.__leftIndexC;
+    }
+
+    get rightHeelC() {
+        return this.__rightHeelC;
+    }
+
+    get leftHeelC() {
+        return this.__leftHeelC;
+    }
+
+    get rightFootIndexC() {
+        return this.__rightFootIndexC;
+    }
+
+    get leftFootIndexC() {
+        return this.__leftFootIndexC;
+    }
+
 
 
 
@@ -830,5 +926,82 @@ export default class Skeleton extends GameObject {
     set rightFingertips(rightFingertips) {
         this.__rightFingerTips = rightFingertips;
     }
+
+    set noseC(noseC) {
+        return this.__noseC = noseC;
+    }
+
+    set rightShoulderC(rightShoulderC) {
+        this.__rightShoulderC = rightShoulderC;
+    }
+
+    set leftShoulderC(leftShoulderC) {
+        this.__leftShoulderC = leftShoulderC;
+    }
+
+    set rightElbowC(rightElbowC) {
+        this.__rightElbowC = rightElbowC;
+    }
+
+    set leftElbowC(leftElbowC) {
+        this.__leftElbowC = leftElbowC;
+    }
+
+    set rightWristC(rightWristC) {
+        this.__rightWristC = rightWristC;
+    }
+
+    set leftWristC(leftWristC) {
+        this.__leftWristC = leftWristC;
+    }
+
+    set rightHipC(rightHipC) {
+        this.__rightHipC = rightHipC;
+    }
+
+    set leftHipC(leftHipC) {
+        this.__leftHipC = leftHipC;
+    }
+
+    set rightKneeC(rightKneeC) {
+        this.__rightKneeC = rightKneeC;
+    }
+
+    set leftKneeC(leftKneeC) {
+        this.__leftKneeC = leftKneeC;
+    }
+
+    set rightAnkleC(rightAnkleC) {
+        this.__rightAnkleC = rightAnkleC;
+    }
+
+    set leftAnkleC(leftAnkleC) {
+        this.__leftAnkleC = leftAnkleC;
+    }
+
+    set rightIndexC(rightIndexC) {
+        this.__rightIndexC = rightIndexC;
+    }
+
+    set leftIndexC(leftIndexC) {
+        this.__leftIndexC = leftIndexC;
+    }
+
+    set rightHeelC(rightHeelC) {
+        this.__rightHeelC = rightHeelC;
+    }
+
+    set leftHeelC(leftHeelC) {
+        this.__leftHeelC = leftHeelC;
+    }
+
+    set rightFootIndexC(rightFootIndexC) {
+        this.__rightFootIndexC = rightFootIndexC;
+    }
+
+    set leftFootIndexC(leftFootIndexC) {
+        this.__leftFootindexC = leftFootIndexC;
+    }
+
 
 }

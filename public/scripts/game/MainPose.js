@@ -3,32 +3,26 @@ import GameObject from "../core/GameObject.js";
 export default class MainPose extends GameObject {
 
     //constructor for building bones by using raw data from Offsete landmarks
-    constructor(timeToHold, timesToStir) {
+    constructor(timeToHold, sweatEffect) {
         super(0, 0, 0, 0, 0, 0);
 
         this.__poseCircles = [];
 
-        this.__stirCircles
-
         this.__timeToHold = timeToHold;
-        this.__timesToStir = timesToStir;
         this.__currentHoldTime = 0;
         this.__currentTime = this.p5.millis();
         this.__holdComplete = false;
         this.__allHolding = false;
         this.__holdCount = 0;
+        this.__sweatEffect = sweatEffect;
     }
 
     addCircle(circle) {
         this.__poseCircles.push(circle);
     }
 
-    stirMotion() {
-
-    }
-
     //updates any model attributes of the bone
-    update(){
+    update(gameSession){
         for (let i = 0; i < this.poseCircles.length; i++) {
             this.poseCircles[i].update()
         }
@@ -56,14 +50,24 @@ export default class MainPose extends GameObject {
         }
 
         if (this.__allHolding) {
+            
             if (this.__currentHoldTime >= this.__timeToHold) {
                 this.holdComplete = true;
                 for (let i = 0; i < this.poseCircles.length; i++) {
                     this.poseCircles[i].holdComplete = true;
                 }
+                this.__allHolding = false;
             }
         } else {
             this.__currentTime = this.p5.millis();
+        }
+
+        if (this.__allHolding && !this.holdComplete) {
+            let centerX, centerY;
+            centerX = (gameSession.skeleton.leftShoulder.x * gameSession.canvasWidth + gameSession.skeleton.rightShoulder.x * gameSession.canvasWidth) / 2;
+            centerY = (gameSession.skeleton.leftShoulder.y * gameSession.canvasHeight + gameSession.skeleton.rightShoulder.y * gameSession.canvasHeight) / 2;
+            let drawSweatDistance = this.getDistance(centerX, centerY, gameSession.skeleton.nose.x * gameSession.canvasWidth, gameSession.skeleton.nose.y * gameSession.canvasHeight)
+            this.p5.image(this.sweatEffect, gameSession.skeleton.nose.x * gameSession.canvasWidth, gameSession.skeleton.nose.y * gameSession.canvasHeight, drawSweatDistance * 4, drawSweatDistance * 4)
         }
 
         if (this.holdComplete) {
@@ -71,6 +75,14 @@ export default class MainPose extends GameObject {
         }
     }
 
+    getDistance(posInfoX, posInfoY, circlePosX, circlePosY) {
+		return Math.sqrt((posInfoX - circlePosX)*(posInfoX - circlePosX) + (posInfoY - circlePosY)*(posInfoY - circlePosY));
+	}
+
+    updateTime() {
+        
+    }
+    
     //Adds bone to the canvas
     render(){
 
@@ -78,6 +90,10 @@ export default class MainPose extends GameObject {
 
     get poseCircles() {
         return this.__poseCircles;
+    }
+
+    get sweatEffect() {
+        return this.__sweatEffect;
     }
 
     get timeToHold() {
@@ -105,9 +121,13 @@ export default class MainPose extends GameObject {
     }
 
     set poseCircles(poseCircles) {
-        this.__poseCircles = poseCircles
+        this.__poseCircles = poseCircles;
     }
     
+    set sweatEffect(sweatEffect) {
+        this.__sweatEffect = sweatEffect;
+    }
+
     set timeToHold(timeToHold) {
         this.__timeToHold = timeToHold;
     }
