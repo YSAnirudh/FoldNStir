@@ -25,6 +25,7 @@ export default class State {
 
         //link to gameSession
         this.__gameSession = new GameSession();
+        this.__p5 = this.__gameSession.p5;
         this.__gameSession.addStateToGame(this);
 
     }
@@ -63,5 +64,14 @@ export default class State {
 
     set gameSession(gameSession){
         this.__gameSession = gameSession;
+    }
+
+    
+    get p5(){
+        return this.__p5;
+    }
+
+    set p5(p5){
+        this.__p5 = p5;
     }
 }

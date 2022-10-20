@@ -12,19 +12,25 @@ import State from "../../core/State.js";
 
 export default class LoadingState extends State {
 
-    constructor(name){
-        super(name);
+    constructor(){
+        super("Loading");
 
         this.__cameraLoaded = false;
 
         //indicates if we have finished all of our loading tasks.
         this.__loaded = false;
 
+        //local references to assets for cleaner code
+        this.__loadingBackgroundImg = {};
+
 
     }
 
     setup(){
         super.setup();
+        this.loadingBackgroundImg = this.gameSession.spriteManager.getSprite("loadingBackgroundImg");
+        this.p5.image(this.loadingBackgroundImg, this.gameSession.canvasWidth/2, this.gameSession.canvasHeight/2, this.gameSession.canvasWidth, this.gameSession.canvasHeight);
+
         //Show Gif
         //Show Text: Accept Camera Permissions
         //Load Camera
@@ -32,8 +38,10 @@ export default class LoadingState extends State {
     }
 
     render(){
-        //TODO: render loading gif here
-
+        super.render();
+        //Background - using image for more flexibility
+        this.p5.image(this.loadingBackgroundImg, this.gameSession.canvasWidth/2, this.gameSession.canvasHeight/2, this.gameSession.canvasWidth, this.gameSession.canvasHeight);
+        
 
 
     }
@@ -41,15 +49,17 @@ export default class LoadingState extends State {
     
     update(){
 
-        //first attempt to load camera
+        //Attempt to load camera. If successful, callback transitions session to main menu.
         if(!this.cameraLoaded){
             console.log("Loading camera...");
             this.loadCamera();
-        }
+        } 
+
+        
     }
 
     cleanup(){
-
+        super.cleanup();
 
     }
 
@@ -61,6 +71,7 @@ export default class LoadingState extends State {
         function onResults(results) {
             let gameSession = new GameSession();
             gameSession.poseLandmarks = (results.poseLandmarks);
+            gameSession.setCurrentStateByName("MainMenu");
         }
 
         //Instantiate Pose
@@ -84,6 +95,7 @@ export default class LoadingState extends State {
 
         const camera = new Camera(videoElement, {
             onFrame: async () => {
+
                 await pose.send({image: videoElement});
             },
             width: 1280,
@@ -92,8 +104,8 @@ export default class LoadingState extends State {
         
         camera.start();
 
-        this.__cameraLoaded = true;
-        console.log("Camera Loaded");
+        this.cameraLoaded = true;
+
     }
 
     get loaded(){
@@ -110,5 +122,13 @@ export default class LoadingState extends State {
 
     set cameraLoaded(cameraLoaded){
         this.__cameraLoaded = cameraLoaded;
+    }
+
+    get loadingBackgroundImg(){
+        return this.__loadingBackgroundImg;
+    }
+
+    set loadingBackgroundImg(loadingBackgroundImg){
+        this.__loadingBackgroundImg = loadingBackgroundImg;
     }
 }

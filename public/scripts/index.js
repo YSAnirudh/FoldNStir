@@ -5,6 +5,7 @@ import MainPose from "./game/MainPose.js"
 import LoadingState from "./game/states/LoadingState.js";
 import MainBody from "./game/MainBody.js";
 import StirCircle from "./game/StirCircle.js";
+import MainMenuState from "./game/states/MainMenuState.js";
 /**TODOS:
  Move Camera instantiation to separate file and load with loading state
  Have game start in loading state
@@ -22,34 +23,52 @@ let gameSession = new GameSession();
 
 //Define how our P5 sketch will look. Treat this as the "Main".
 var foldnstir = function (p) {
-	let imgCreate, benderCharacter, benderBodyParts, stirCircle;
+	let imgCreate, benderCharacter, benderBodyParts, stirCircle, loadingBackgroundImg, mainMenuImg;
 	//Executed before beginning setup
 	p.preload = function() {
-		imgCreate = p.loadImage("assets/images/ChargePackEffectComplete.gif")
+		//TODO: Put references to preloaded assets in game session for retrieval in later states.
+		//Add to sprite manager?
+
+		imgCreate = p.loadImage("assets/images/ChargePackEffectComplete.gif");
 		
-		benderBodyParts = []
-		benderBodyParts.push(p.loadImage("assets/images/HeadTest.png"))
-		benderBodyParts.push(p.loadImage("assets/images/LShoulder.png"))
-		benderBodyParts.push(p.loadImage("assets/images/LArm.png"))
-		benderBodyParts.push(p.loadImage("assets/images/LLeg.png"))
-		benderBodyParts.push(p.loadImage("assets/images/LShin.png"))
-		benderBodyParts.push(p.loadImage("assets/images/RShoulder.png"))
-		benderBodyParts.push(p.loadImage("assets/images/RArm.png"))
-		benderBodyParts.push(p.loadImage("assets/images/RLeg.png"))
-		benderBodyParts.push(p.loadImage("assets/images/RShin.png"))
-		benderBodyParts.push(p.loadImage("assets/images/Torso.png"))
-		benderBodyParts.push(p.loadImage("assets/images/LWrist.png"))
-		benderBodyParts.push(p.loadImage("assets/images/LFeet.png"))
-		benderBodyParts.push(p.loadImage("assets/images/RWrist.png"))
-		benderBodyParts.push(p.loadImage("assets/images/RFeet.png"))
+		benderBodyParts = [];
+		benderBodyParts.push(p.loadImage("assets/images/HeadTest.png"));
+		benderBodyParts.push(p.loadImage("assets/images/LShoulder.png"));
+		benderBodyParts.push(p.loadImage("assets/images/LArm.png"));
+		benderBodyParts.push(p.loadImage("assets/images/LLeg.png"));
+		benderBodyParts.push(p.loadImage("assets/images/LShin.png"));
+		benderBodyParts.push(p.loadImage("assets/images/RShoulder.png"));
+		benderBodyParts.push(p.loadImage("assets/images/RArm.png"));
+		benderBodyParts.push(p.loadImage("assets/images/RLeg.png"));
+		benderBodyParts.push(p.loadImage("assets/images/RShin.png"));
+		benderBodyParts.push(p.loadImage("assets/images/Torso.png"));
+		benderBodyParts.push(p.loadImage("assets/images/LWrist.png"));
+		benderBodyParts.push(p.loadImage("assets/images/LFeet.png"));
+		benderBodyParts.push(p.loadImage("assets/images/RWrist.png"));
+		benderBodyParts.push(p.loadImage("assets/images/RFeet.png"));
+
+		//Load background image
+		//TODO: file URLs and keys should be turned into a constants file section.
+		loadingBackgroundImg = p.loadImage("assets/images/ui_loading.png");
+		gameSession.spriteManager.addSprite("loadingBackgroundImg", loadingBackgroundImg);
+
+		//Main menu image
+		mainMenuImg = p.loadImage("assets/images/ui_start_screen.png");
+		gameSession.spriteManager.addSprite("mainMenuImg", mainMenuImg);
+
+
+
+
 	}
 
 	//Executed before draw
 	p.setup = function () {
 
 		//Instantiate all relevant game states and add them to the session.
-		let loadingState = new LoadingState("Loading");
+		let loadingState = new LoadingState();
+		let mainMenuState = new MainMenuState();
 		gameSession.addStateToGame(loadingState);
+		gameSession.addStateToGame(mainMenuState);
 
 		//Set initial game state as loading, call setup method
 		gameSession.setCurrentState(loadingState);
@@ -70,6 +89,8 @@ var foldnstir = function (p) {
 
 		p.frameRate(60);
 		p.imageMode(p.CENTER);
+
+		//Move to game state setup
 
 		stirCircle = new StirCircle(300, 0, 150, 5, 0, 100);
 
@@ -106,22 +127,22 @@ var foldnstir = function (p) {
 		//Render current state of game
 		gameSession.currentState.render();
 
-		//TODO: Move to game state
-		if(gameSession.poseLandmarks.length >= 1){
-			stirCircle.addBodyPartInfo(gameSession.skeleton.leftWrist, gameSession);
-			stirCircle.update();
-			p.imageMode(p.CENTER);
-			gameSession.benderCharacter.render(gameSession);
-			p.strokeWeight(0);
-			for(let i = 0; i < gameSession.poseLandmarks.length; i++){
-				if ((i >= 11 && i <= 16) || (i >= 23 && i <= 28) || (i == 0)) {
-					p.fill(greenColor);
-					p.ellipse(gameSession.poseLandmarks[i].x * gameSession.canvasWidth, gameSession.poseLandmarks[i].y * gameSession.canvasHeight, 50,50, 0);//gameSession.poseLandmarks[i].z*100, gameSession.poseLandmarks[i].z*100);
+		// //TODO: Move to game state
+		// if(gameSession.poseLandmarks.length >= 1){
+		// 	stirCircle.addBodyPartInfo(gameSession.skeleton.leftWrist, gameSession);
+		// 	stirCircle.update();
+		// 	p.imageMode(p.CENTER);
+		// 	gameSession.benderCharacter.render(gameSession);
+		// 	p.strokeWeight(0);
+		// 	for(let i = 0; i < gameSession.poseLandmarks.length; i++){
+		// 		if ((i >= 11 && i <= 16) || (i >= 23 && i <= 28) || (i == 0)) {
+		// 			p.fill(greenColor);
+		// 			p.ellipse(gameSession.poseLandmarks[i].x * gameSession.canvasWidth, gameSession.poseLandmarks[i].y * gameSession.canvasHeight, 50,50, 0);//gameSession.poseLandmarks[i].z*100, gameSession.poseLandmarks[i].z*100);
 					
-				}
-			}
+		// 		}
+		// 	}
 
-		}
+		// }
 		
 	}
 
