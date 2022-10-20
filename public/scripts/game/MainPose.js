@@ -3,12 +3,15 @@ import GameObject from "../core/GameObject.js";
 export default class MainPose extends GameObject {
 
     //constructor for building bones by using raw data from Offsete landmarks
-    constructor(timeToHold) {
+    constructor(timeToHold, timesToStir) {
         super(0, 0, 0, 0, 0, 0);
 
         this.__poseCircles = [];
 
+        this.__stirCircles
+
         this.__timeToHold = timeToHold;
+        this.__timesToStir = timesToStir;
         this.__currentHoldTime = 0;
         this.__currentTime = this.p5.millis();
         this.__holdComplete = false;
@@ -18,6 +21,10 @@ export default class MainPose extends GameObject {
 
     addCircle(circle) {
         this.__poseCircles.push(circle);
+    }
+
+    stirMotion() {
+
     }
 
     //updates any model attributes of the bone

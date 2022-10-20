@@ -24,6 +24,7 @@ export default class GameSession{
 		this.__skeleton = {}; //player skeleton
 		this.__circle = {};
 		this.__mainPose = {};
+		this.__benderCharacter = {};
 
 		//Important Globals
 		this.__backgroundColor = 0;
@@ -118,6 +119,14 @@ export default class GameSession{
 
 	set mainPose(mainPose){
 		this.__mainPose = mainPose;
+	}
+
+	get benderCharacter(){
+		return this.__benderCharacter;
+	}
+
+	set benderCharacter(benderCharacter){
+		this.__benderCharacter = benderCharacter;
 	}
 
 	get poseLandmarks(){

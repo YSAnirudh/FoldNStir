@@ -23,12 +23,18 @@ export default class Skeleton extends GameObject {
         this.__rightHip = {};
         this.__rightKnee = {};
         this.__rightAnkle = {};
+        this.__rightIndex = {};
+        this.__rightHeel = {};
+        this.__rightFootIndex = {};
         this.__leftShoulder = {};
         this.__leftElbow = {};
         this.__leftWrist = {};
         this.__leftHip = {};
         this.__leftKnee = {};
         this.__leftAnkle = {};
+        this.__leftIndex = {};
+        this.__leftHeel = {};
+        this.__leftFootIndex = {};
 
         this.__leftTemple = {};
         this.__leftEyebrow1 = {};
@@ -66,7 +72,6 @@ export default class Skeleton extends GameObject {
         this.__rightOuterpalm = {};
         this.__rightFingertips = {};
 
-        
     }
 
     //updates any model attributes of the bone
@@ -212,12 +217,18 @@ export default class Skeleton extends GameObject {
             this.__rightHip = poseLandmarks[24];
             this.__rightKnee = poseLandmarks[26];
             this.__rightAnkle = poseLandmarks[28];
+            this.__rightIndex = poseLandmarks[20];
+            this.__rightHeel = poseLandmarks[30];
+            this.__rightFootIndex = poseLandmarks[32];
             this.__leftShoulder = poseLandmarks[11];
             this.__leftElbow = poseLandmarks[13];
             this.__leftWrist = poseLandmarks[15];
             this.__leftHip = poseLandmarks[23];
             this.__leftKnee = poseLandmarks[25];
             this.__leftAnkle = poseLandmarks[27];
+            this.__leftIndex = poseLandmarks[19];
+            this.__leftHeel = poseLandmarks[29];
+            this.__leftFootIndex = poseLandmarks[31];
             
             this.__requiredJoints.push(this.__nose);
             this.__requiredJoints.push(this.__rightShoulder);
@@ -226,12 +237,18 @@ export default class Skeleton extends GameObject {
             this.__requiredJoints.push(this.__rightHip);
             this.__requiredJoints.push(this.__rightKnee);
             this.__requiredJoints.push(this.__rightAnkle);
+            this.__requiredJoints.push(this.__rightIndex);
+            this.__requiredJoints.push(this.__rightHeel);
+            this.__requiredJoints.push(this.__rightFootIndex);
             this.__requiredJoints.push(this.__leftShoulder);
             this.__requiredJoints.push(this.__leftElbow);
             this.__requiredJoints.push(this.__leftWrist);
             this.__requiredJoints.push(this.__leftHip);
             this.__requiredJoints.push(this.__leftKnee);
             this.__requiredJoints.push(this.__leftAnkle);
+            this.__requiredJoints.push(this.__leftIndex);
+            this.__requiredJoints.push(this.__leftHeel);
+            this.__requiredJoints.push(this.__leftFootIndex);
             //left temple creation
             this.leftTemple = new Bone(poseLandmarks[8], poseLandmarks[6], "Left Temple", 0);
             this.bones.push(this.leftTemple);
@@ -425,6 +442,31 @@ export default class Skeleton extends GameObject {
     get leftAnkle() {
         return this.__leftAnkle;
     }
+
+    get rightIndex() {
+        return this.__rightIndex;
+    }
+
+    get leftIndex() {
+        return this.__leftIndex;
+    }
+
+    get rightHeel() {
+        return this.__rightHeel;
+    }
+
+    get leftHeel() {
+        return this.__leftHeel;
+    }
+
+    get rightFootIndex() {
+        return this.__rightFootIndex;
+    }
+
+    get leftFootIndex() {
+        return this.__leftFootIndex;
+    }
+
 
     get leftTemple() {
         return this.__leftTemple;
@@ -624,6 +666,31 @@ export default class Skeleton extends GameObject {
     set leftAnkle(leftAnkle) {
         this.__leftAnkle = leftAnkle;
     }
+
+    set rightIndex(rightIndex) {
+        this.__rightIndex = rightIndex;
+    }
+
+    set leftIndex(leftIndex) {
+        this.__leftIndex = leftIndex;
+    }
+
+    set rightHeel(rightHeel) {
+        this.__rightHeel = rightHeel;
+    }
+
+    set leftHeel(leftHeel) {
+        this.__leftHeel = leftHeel;
+    }
+
+    set rightFootIndex(rightFootIndex) {
+        this.__rightFootIndex = rightFootIndex;
+    }
+
+    set leftFootIndex(leftFootIndex) {
+        this.__leftFootindex = leftFootIndex;
+    }
+
     set leftTemple(leftTemple) {
         this.__leftTemple = leftTemple;
     }

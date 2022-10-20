@@ -3,6 +3,8 @@ import Skeleton from "./game/Skeleton.js";
 import Circle from "./game/Circle.js"
 import MainPose from "./game/MainPose.js"
 import LoadingState from "./game/states/LoadingState.js";
+import MainBody from "./game/MainBody.js";
+import StirCircle from "./game/StirCircle.js";
 /**TODOS:
  Move Camera instantiation to separate file and load with loading state
  Have game start in loading state
@@ -14,39 +16,32 @@ let gameSession = new GameSession();
 
 //Instantiate MediaPipe before proceeding
 
-const mpPose = window;
 
-//Attach results to gamesession whenever available
-function onResults(results) {
-	gameSession.poseLandmarks = (results.poseLandmarks);
-}
 
-//Instantiate Pose
-const pose = new mpPose.Pose(
-	{locateFile: (file) => {
-		return `https://cdn.jsdelivr.net/npm/@mediapipe/pose/${file}`;
-	}
-});
 
-//Options
-pose.setOptions({
-	modelComplexity: 1,
-	smoothLandmarks: true,
-	enableSegmentation: false,
-	smoothSegmentation: false,
-	minDetectionConfidence: 0.5,
-	minTrackingConfidence: 0.5
-});
-
-pose.onResults(onResults);
 
 //Define how our P5 sketch will look. Treat this as the "Main".
 var foldnstir = function (p) {
-	let imgCreate, benderCharacter;
+	let imgCreate, benderCharacter, benderBodyParts, stirCircle;
 	//Executed before beginning setup
 	p.preload = function() {
 		imgCreate = p.loadImage("assets/images/ChargePackEffectComplete.gif")
-		benderCharacter = p.loadImage("assets/images/BenderTPose.png")
+		
+		benderBodyParts = []
+		benderBodyParts.push(p.loadImage("assets/images/HeadTest.png"))
+		benderBodyParts.push(p.loadImage("assets/images/LShoulder.png"))
+		benderBodyParts.push(p.loadImage("assets/images/LArm.png"))
+		benderBodyParts.push(p.loadImage("assets/images/LLeg.png"))
+		benderBodyParts.push(p.loadImage("assets/images/LShin.png"))
+		benderBodyParts.push(p.loadImage("assets/images/RShoulder.png"))
+		benderBodyParts.push(p.loadImage("assets/images/RArm.png"))
+		benderBodyParts.push(p.loadImage("assets/images/RLeg.png"))
+		benderBodyParts.push(p.loadImage("assets/images/RShin.png"))
+		benderBodyParts.push(p.loadImage("assets/images/Torso.png"))
+		benderBodyParts.push(p.loadImage("assets/images/LWrist.png"))
+		benderBodyParts.push(p.loadImage("assets/images/LFeet.png"))
+		benderBodyParts.push(p.loadImage("assets/images/RWrist.png"))
+		benderBodyParts.push(p.loadImage("assets/images/RFeet.png"))
 	}
 
 	//Executed before draw
@@ -76,24 +71,24 @@ var foldnstir = function (p) {
 		p.frameRate(60);
 		p.imageMode(p.CENTER);
 
-		// //instantiate skeleton
-		// gameSession.skeleton = new Skeleton();
-		// gameSession.skeleton.update();
+		stirCircle = new StirCircle(300, 0, 150, 5, 0, 100);
 
-		// // Adding circles for the pose.
-		// let circle = new Circle(300, -100, 300, 4);
-		// let circle2 = new Circle(-300, 300, 300, 4);
-		// gameSession.mainPose = new MainPose(4)
-		// gameSession.mainPose.addCircle(circle);
-		// gameSession.mainPose.addCircle(circle2);
+		// Adding circles for the pose.
+		let circle = new Circle(25, -200, 125, 4);
+		let circle2 = new Circle(-25, -200, 125, 4);
+		let circle3 = new Circle(-25, 400, 125, 4);
+		let circle4 = new Circle(-175, 300, 125, 4);
+		gameSession.mainPose = new MainPose(4)
+		gameSession.mainPose.addCircle(circle);
+		gameSession.mainPose.addCircle(circle2);
+		gameSession.mainPose.addCircle(circle3);
+		gameSession.mainPose.addCircle(circle4);
+
+		gameSession.benderCharacter = new MainBody(benderBodyParts);
 	}
 
 	//core update function of the game
 	p.draw = function(){
-
-		//TODO: STATE MANAGEMENT
-		//gameSession.currentState.update();
-		//gameSession.currentState.render();
 
 		//System updates first
 		gameSession.timeManager.update();
@@ -102,45 +97,38 @@ var foldnstir = function (p) {
 
 		//Renders last and from back to front. Clear before going.
 		p.clear();
+		p.angleMode(p.DEGREES);
+
+		//TODO: Move to individual classes and use an image
 		p.background(p.color(gameSession.backgroundColor)); 
 		gameSession.particleManager.render();
 
 		//Render current state of game
 		gameSession.currentState.render();
 
-		// let greenColor = p.color('green');
-		// let redColor = p.color('red');
-
-		// if(gameSession.poseLandmarks.length >= 1){
-		// 	p.strokeWeight(0);
-		// 	for(let i = 0; i < gameSession.poseLandmarks.length; i++){
-		// 		if ((i >= 11 && i <= 16) || (i >= 23 && i <= 28) || (i == 0)) {
-		// 			p.fill(greenColor);
-		// 			p.ellipse(gameSession.poseLandmarks[i].x * gameSession.canvasWidth, gameSession.poseLandmarks[i].y * gameSession.canvasHeight, 50,50, 0);//gameSession.poseLandmarks[i].z*100, gameSession.poseLandmarks[i].z*100);
+		//TODO: Move to game state
+		if(gameSession.poseLandmarks.length >= 1){
+			stirCircle.addBodyPartInfo(gameSession.skeleton.leftWrist, gameSession);
+			stirCircle.update();
+			p.imageMode(p.CENTER);
+			gameSession.benderCharacter.render(gameSession);
+			p.strokeWeight(0);
+			for(let i = 0; i < gameSession.poseLandmarks.length; i++){
+				if ((i >= 11 && i <= 16) || (i >= 23 && i <= 28) || (i == 0)) {
+					p.fill(greenColor);
+					p.ellipse(gameSession.poseLandmarks[i].x * gameSession.canvasWidth, gameSession.poseLandmarks[i].y * gameSession.canvasHeight, 50,50, 0);//gameSession.poseLandmarks[i].z*100, gameSession.poseLandmarks[i].z*100);
 					
-		// 		}
-		// 	}
-		// 	if (gameSession.skeleton.leftWrist && gameSession.skeleton.nose) {
-				
-		// 		// Assigning bodyParts to each circle
-		// 		gameSession.mainPose.poseCircles[0].addBodyPartInfo(
-		// 			gameSession.skeleton.leftWrist, 
-		// 			gameSession
-		// 		);
+				}
+			}
 
-		// 		gameSession.mainPose.poseCircles[1].addBodyPartInfo(
-		// 			gameSession.skeleton.rightKnee, 
-		// 			gameSession
-		// 		);
-		// 		// Rendering body parts.
-		// 		gameSession.mainPose.update()
-		// 	}
-
-		// }
-		//gameSession.skeleton.render();
+		}
 		
 	}
 
+	function getAngle(x1, y1, x2, y2) {
+		let angle = Math.atan2(y2-y1, x2-x1) * 180 / Math.PI;
+		return angle;
+	}
 
 	// Manage game input.
 	p.keyPressed = function () {
@@ -152,6 +140,10 @@ var foldnstir = function (p) {
 		gameSession.canvasHeight = window.innerHeight;
 
 		p.resizeCanvas(gameSession.canvasWidth, gameSession.canvasHeight);
+	}
+
+	function getDistance(posInfoX, posInfoY, circlePosX, circlePosY) {
+		return Math.sqrt((posInfoX - circlePosX)*(posInfoX - circlePosX) + (posInfoY - circlePosY)*(posInfoY - circlePosY));
 	}
 
 	function checkInCircle(posInfoX, posInfoY, circlePosX, circlePosY, circleRadius) {
