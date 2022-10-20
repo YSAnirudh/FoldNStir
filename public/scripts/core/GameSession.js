@@ -29,6 +29,7 @@ export default class GameSession{
 		this.__currentPoseIndex = 0;
 		this.__emptyPose = {};
 		this.__benderCharacter = {};
+		this.__benderBodyParts = {};
 
 		//Important Globals
 		this.__backgroundColor = 0;
@@ -269,6 +270,14 @@ export default class GameSession{
 
 	get particleSystemDefinitions() {
 		return this.__particleSystemDefinitions;
+	}
+
+	get benderBodyParts() {
+		return this.__benderBodyParts;
+	}
+
+	set benderBodyParts(benderBodyParts){
+		return this.__benderBodyParts;
 	}
 
 }
