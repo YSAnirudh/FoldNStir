@@ -23,7 +23,8 @@ let gameSession = new GameSession();
 
 //Define how our P5 sketch will look. Treat this as the "Main".
 var foldnstir = function (p) {
-	let imgCreate, benderCharacter, benderBodyParts, stirCircle, loadingBackgroundImg, mainMenuImg;
+	let imgCreate, benderCharacter, benderBodyParts, stirCircle, loadingBackgroundImg, 
+	mainMenuImg, startGameBtnImg, startGameBtnHoverImg, startGameBtnPressImg;
 	//Executed before beginning setup
 	p.preload = function() {
 		//TODO: Put references to preloaded assets in game session for retrieval in later states.
@@ -56,7 +57,17 @@ var foldnstir = function (p) {
 		mainMenuImg = p.loadImage("assets/images/ui_start_screen.png");
 		gameSession.spriteManager.addSprite("mainMenuImg", mainMenuImg);
 
+		//Button image
+		startGameBtnImg = p.loadImage("assets/images/ui_start_button.png");
+		gameSession.spriteManager.addSprite("startGameBtnImg", startGameBtnImg);
 
+		//Button hover
+		startGameBtnHoverImg = p.loadImage("assets/images/ui_start_button_hover.png");
+		gameSession.spriteManager.addSprite("startGameBtnHoverImg", startGameBtnHoverImg);
+
+		//button pressed
+		startGameBtnPressImg = p.loadImage("assets/images/ui_start_button_selected.png");
+		gameSession.spriteManager.addSprite("startGameBtnPressImg", startGameBtnPressImg);
 
 
 	}
@@ -145,6 +156,66 @@ var foldnstir = function (p) {
 		// }
 		
 	}
+
+	//implement your controls inside of your specific state.
+	p.mousePressed = function(){
+		//call gameState code here as needed.
+	}
+
+    p.keyPressed = function(){
+		//call gameState code here as needed.
+	}
+
+    p.keyReleased = function(){
+		//call gameState code here as needed.
+	}
+
+    p.keyTyped = function(){
+		//call gameState code here as needed.
+	}
+
+    p.keyIsDown = function(){
+		//call gameState code here as needed.
+	}
+
+    p.mouseMoved = function(){
+		//call gameState code here as needed.
+	}
+
+    p.mouseDragged = function(){
+		//call gameState code here as needed.
+	}
+
+    p.mousePressed = function(){
+		//call gameState code here as needed.
+	}
+
+    p.mouseReleased = function(){
+		if(gameSession.currentState.mouseReleased){
+			gameSession.currentState.mouseReleased();
+		}
+	}
+
+    p.mouseClicked = function(){
+		//call gameState code here as needed.
+	}
+
+    p.doubleClicked = function(){
+		//call gameState code here as needed.
+	}
+
+    p.mouseWheel = function(){
+		//call gameState code here as needed.
+	}
+
+    p.requestPointerLock = function(){
+		//call gameState code here as needed.
+	}
+
+    p.exitPointerLock = function(){
+		//call gameState code here as needed.
+	}
+
 
 	function getAngle(x1, y1, x2, y2) {
 		let angle = Math.atan2(y2-y1, x2-x1) * 180 / Math.PI;

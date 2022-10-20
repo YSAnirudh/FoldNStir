@@ -17,8 +17,8 @@ export default class LoadingState extends State {
 
         this.__cameraLoaded = false;
 
-        //indicates if we have finished all of our loading tasks.
-        this.__loaded = false;
+        //indicates if we are currently loading tasks.
+        this.__loading = true;
 
         //local references to assets for cleaner code
         this.__loadingBackgroundImg = {};
@@ -71,7 +71,11 @@ export default class LoadingState extends State {
         function onResults(results) {
             let gameSession = new GameSession();
             gameSession.poseLandmarks = (results.poseLandmarks);
-            gameSession.setCurrentStateByName("MainMenu");
+            if(gameSession.currentState.loading){
+                gameSession.currentState.loading = false;
+                gameSession.setCurrentStateByName("MainMenu");
+            }
+
         }
 
         //Instantiate Pose
@@ -108,12 +112,12 @@ export default class LoadingState extends State {
 
     }
 
-    get loaded(){
-        return this.__loaded;
+    get loading(){
+        return this.__loading;
     }
 
-    set loaded(loaded){
-        this.__loaded = loaded;
+    set loading(loading){
+        this.__loading = loading;
     }
 
     get cameraLoaded(){

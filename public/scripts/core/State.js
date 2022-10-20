@@ -50,6 +50,64 @@ export default class State {
         console.log("Cleaning up " + this.name) + " state.";
     }
 
+    //These are possible input methods. They should be implemented (if needed) in your state class.
+    //these all are linked in index.js.
+    mousePressed(){
+        console.log("mouse pressed");
+    }
+
+    keyPressed(){
+        console.log("input detected");
+    }
+    
+    keyReleased(){
+        console.log("input detected");
+    }
+    
+    keyTyped(){
+        console.log("input detected");
+    }
+    
+    keyIsDown(){
+        console.log("input detected");
+    }
+    
+    mouseMoved(){
+        console.log("input detected");
+    }
+    
+    mouseDragged(){
+        console.log("input detected");
+    }
+    
+    mousePressed(){
+        console.log("input detected");
+    }
+    
+    mouseReleased(){
+        console.log("input detected");
+    }
+    
+    mouseClicked(){
+        console.log("input detected");
+    }
+    
+    doubleClicked(){
+        console.log("input detected");
+    }
+    
+    mouseWheel(){
+        console.log("input detected");
+    }
+    
+    requestPointerLock(){
+        console.log("input detected");
+    }
+    
+    exitPointerLock(){
+        console.log("input detected");
+    }
+
     get name(){
         return this.__name;
     }
