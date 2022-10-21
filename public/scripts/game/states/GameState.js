@@ -28,12 +28,32 @@ export default class GameState extends State {
         this.__circleUI = {};
         this.__sweatEffect = {};
 
+
+
         this.__benderBodyParts = {};
 
     }
 
     setup(){
         super.setup();
+        let benderBodyParts = [];
+		benderBodyParts.push(this.p5.loadImage("assets/images/HeadTest.png"));
+		benderBodyParts.push(this.p5.loadImage("assets/images/LShoulder.png"));
+		benderBodyParts.push(this.p5.loadImage("assets/images/LArm.png"));
+		benderBodyParts.push(this.p5.loadImage("assets/images/LLeg.png"));
+		benderBodyParts.push(this.p5.loadImage("assets/images/LShin.png"));
+		benderBodyParts.push(this.p5.loadImage("assets/images/RShoulder.png"));
+		benderBodyParts.push(this.p5.loadImage("assets/images/RArm.png"));
+		benderBodyParts.push(this.p5.loadImage("assets/images/RLeg.png"));
+		benderBodyParts.push(this.p5.loadImage("assets/images/RShin.png"));
+		benderBodyParts.push(this.p5.loadImage("assets/images/Torso.png"));
+		benderBodyParts.push(this.p5.loadImage("assets/images/LWrist.png"));
+		benderBodyParts.push(this.p5.loadImage("assets/images/LFeet.png"));
+		benderBodyParts.push(this.p5.loadImage("assets/images/RWrist.png"));
+		benderBodyParts.push(this.p5.loadImage("assets/images/RFeet.png"));
+
+        this.benderBodyParts = benderBodyParts;
+
         this.gameBackground = this.gameSession.spriteManager.getSprite("gameBackground");
         this.p5.image(this.gameBackground, this.gameSession.canvasWidth/2, this.gameSession.canvasHeight/2, this.gameSession.canvasWidth, this.gameSession.canvasHeight);
 
@@ -44,11 +64,11 @@ export default class GameState extends State {
 
         // -----------------------BENDING POSE----------------------------------
 		//------------------------MAIN POSE 1--------------------------------
-		let circle11 = new Circle(this.gameSession.canvasWidth * (15/100), this.gameSession.canvasHeight * (50/100), this.gameSession.canvasHeight * (13/100), 4, this.circleUI, this.chargeEffectBefore);
-		let circle12 = new Circle(-this.gameSession.canvasWidth * (15/100), this.gameSession.canvasHeight * (50/100), this.gameSession.canvasHeight * (13/100), 4, this.circleUI, this.chargeEffectBefore);
-		let circle13 = new Circle(this.gameSession.canvasWidth * (7/100), this.gameSession.canvasHeight * (46/100), this.gameSession.canvasHeight * (13/100), 4, this.circleUI, this.chargeEffectBefore);
-		let circle14 = new Circle(-this.gameSession.canvasWidth * (7/100), this.gameSession.canvasHeight * (46/100), this.gameSession.canvasHeight * (13/100), 4, this.circleUI, this.chargeEffectBefore);
-		this.gameSession.mainPoses.push(new MainPose(10, this.sweatEffect));
+		let circle11 = new Circle(this.gameSession.canvasWidth * (15/100), this.gameSession.canvasHeight * (35/100), this.gameSession.canvasHeight * (13/100), 4, this.circleUI, this.chargeEffectBefore);
+		let circle12 = new Circle(-this.gameSession.canvasWidth * (15/100), this.gameSession.canvasHeight * (35/100), this.gameSession.canvasHeight * (13/100), 4, this.circleUI, this.chargeEffectBefore);
+		let circle13 = new Circle(this.gameSession.canvasWidth * (7/100), this.gameSession.canvasHeight * (32/100), this.gameSession.canvasHeight * (13/100), 4, this.circleUI, this.chargeEffectBefore);
+		let circle14 = new Circle(-this.gameSession.canvasWidth * (7/100), this.gameSession.canvasHeight * (32/100), this.gameSession.canvasHeight * (13/100), 4, this.circleUI, this.chargeEffectBefore);
+		this.gameSession.mainPoses.push(new MainPose(3, this.sweatEffect));
 		this.gameSession.mainPoses[0].addCircle(circle11);
 		this.gameSession.mainPoses[0].addCircle(circle12);
 		this.gameSession.mainPoses[0].addCircle(circle13);
@@ -60,7 +80,7 @@ export default class GameState extends State {
 		let circle02 = new Circle(-this.gameSession.canvasWidth * (1.5/100), -this.gameSession.canvasHeight * (20/100), this.gameSession.canvasHeight * (13/100), 4, this.circleUI, this.chargeEffectBefore);
 		let circle03 = new Circle(-this.gameSession.canvasWidth * (1.5/100), this.gameSession.canvasHeight * (40/100), this.gameSession.canvasHeight * (14/100), 4, this.circleUI, this.chargeEffectBefore);
 		let circle04 = new Circle(-this.gameSession.canvasWidth * (9/100), this.gameSession.canvasHeight * (33/100), this.gameSession.canvasHeight * (14/100), 4, this.circleUI, this.chargeEffectBefore);
-		this.gameSession.mainPoses.push(new MainPose(4, this.sweatEffect));
+		this.gameSession.mainPoses.push(new MainPose(2, this.sweatEffect));
 		this.gameSession.mainPoses[1].addCircle(circle01);
 		this.gameSession.mainPoses[1].addCircle(circle02);
 		this.gameSession.mainPoses[1].addCircle(circle03);
@@ -76,10 +96,10 @@ export default class GameState extends State {
 
 		// -----------------------HANDS AND LEGS STIR POSE----------------------------------
 		//------------------------STIR POSE 2--------------------------------
-		let stirCircle11 = new StirCircle(this.gameSession.canvasWidth * (20/100), -this.gameSession.canvasHeight * (0/100), this.gameSession.canvasHeight * (13/100), 10, this.gameSession.canvasWidth * (-1/100), this.gameSession.canvasHeight * (20/100), this.circleUI, this.chargeEffectBefore);
-		let stirCircle12 = new StirCircle(-this.gameSession.canvasWidth * (20/100), -this.gameSession.canvasHeight * (10/100), this.gameSession.canvasHeight * (13/100), 30, this.gameSession.canvasWidth * (0/100), this.gameSession.canvasHeight * (20/100), this.circleUI, this.chargeEffectBefore);
-		let stirCircle13 = new StirCircle(this.gameSession.canvasWidth * (9/100), this.gameSession.canvasHeight * (45/100), this.gameSession.canvasHeight * (13/100), 10, this.gameSession.canvasWidth * (-8/100), this.gameSession.canvasHeight * (0/100), this.circleUI, this.chargeEffectBefore);
-		let stirCircle14 = new StirCircle(-this.gameSession.canvasWidth * (12/100), this.gameSession.canvasHeight * (43/100), this.gameSession.canvasHeight * (13/100), 10, this.gameSession.canvasWidth * (8/100), this.gameSession.canvasHeight * (2/100), this.circleUI, this.chargeEffectBefore);
+		let stirCircle11 = new StirCircle(this.gameSession.canvasWidth * (20/100), -this.gameSession.canvasHeight * (0/100), this.gameSession.canvasHeight * (13/100), 5, this.gameSession.canvasWidth * (-1/100), this.gameSession.canvasHeight * (20/100), this.circleUI, this.chargeEffectBefore);
+		let stirCircle12 = new StirCircle(-this.gameSession.canvasWidth * (20/100), -this.gameSession.canvasHeight * (10/100), this.gameSession.canvasHeight * (13/100), 5, this.gameSession.canvasWidth * (0/100), this.gameSession.canvasHeight * (20/100), this.circleUI, this.chargeEffectBefore);
+		let stirCircle13 = new StirCircle(this.gameSession.canvasWidth * (9/100), this.gameSession.canvasHeight * (52/100), this.gameSession.canvasHeight * (13/100), 5, this.gameSession.canvasWidth * (-8/100), this.gameSession.canvasHeight * (0/100), this.circleUI, this.chargeEffectBefore);
+		let stirCircle14 = new StirCircle(-this.gameSession.canvasWidth * (12/100), this.gameSession.canvasHeight * (52/100), this.gameSession.canvasHeight * (13/100), 5, this.gameSession.canvasWidth * (8/100), this.gameSession.canvasHeight * (2/100), this.circleUI, this.chargeEffectBefore);
 		this.gameSession.stirPoses.push(new StirPose(this.sweatEffect));
 		this.gameSession.stirPoses[1].addStirCircle(stirCircle11)
 		this.gameSession.stirPoses[1].addStirCircle(stirCircle12)
@@ -89,7 +109,7 @@ export default class GameState extends State {
 		// -----------------------EMPTY POSE---------------------------------
 		this.gameSession.emptyPose = new EmptyPose(5);
 
-		this.gameSession.benderCharacter = new MainBody(this.gameSession.benderBodyParts);
+		this.gameSession.benderCharacter = new MainBody(benderBodyParts);
 
 		this.gameSession.orderOfPoses = []
 		this.gameSession.orderOfPoses.push(this.gameSession.mainPoses[0]);
